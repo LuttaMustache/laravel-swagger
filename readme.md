@@ -27,7 +27,7 @@ This plugin is fork made from RonasIT/laravel-swagger to support old versions of
  ~~For correct working of plugin you have to dispose all the validation rules in the rules() method of class YourRequest, 
  which must be connected to the controller via DependencyInjection. In annotation of custom request you can specify 
  summary and description of this request. Plugin will take validation rules from your request and use it as description 
- of input parameter. ~~
+ of input parameter.~~
  
  The plugin will automatically generate Swagger 2.0 documentation after you run phpunit.
  
