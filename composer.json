@@ -1,12 +1,12 @@
 {
-  "name": "ronasit/laravel-swagger",
-  "description": "Provided middleware for generating of swagger-documentation file by run testing of RESTful API.",
+  "name": "luttamustache/op-laravel-swagger",
+  "description": "Fork from ronasit/laravel-swagger for old php versions (<=7.2).",
   "keywords": ["laravel", "swagger", "testing", "auto-documentation", "rest-api"],
   "license": "MIT",
   "authors": [
     {
-      "name": "Roman Dubrovin",
-      "email": "rdubrovin@ronasit.com"
+      "name": "Olzhas Zhangeldinov",
+      "email": "olzhas.290100@gmail.com"
     }
   ],
   "require": {
@@ -18,7 +18,7 @@
   },
   "autoload": {
     "psr-4": {
-      "RonasIT\\Support\\AutoDoc\\": "src/"
+      "LuttaMustache\\Support\\AutoDoc\\": "src/"
     },
     "exclude-from-classmap": [
       "src/Tests/"
