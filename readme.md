@@ -1,16 +1,11 @@
-# Laravel AutoDoc plugin 
+# Laravel OP AutoDoc plugin 
 
-This plugin is designed to gather information and generate documentation about 
-your Rest-Api while passing the tests. The principle of operation is based on 
-the fact that the special Middleware installed on the Route for which you want 
-to collect information that after the successful completion of all tests 
-generated Swagger-file. In addition this plug-in is able to draw Swagger-template 
-to display the generated documentation for a config.
+This plugin is fork made from RonasIT/laravel-swagger to support old versions of PHP (<=7.2).
 
 ## Instalation
 
 ### Composer
- 1. `composer require ronasit/laravel-swagger`
+ 1. `composer require luttamustache/op-laravel-swagger`
 
 ### Laravel
  1. Add **LuttaMustache\Support\AutoDoc\AutoDocServiceProvider::class** to providers in config/app.php
@@ -29,10 +24,14 @@ to display the generated documentation for a config.
     `
 
 ## Usages
- For correct working of plugin you have to dispose all the validation rules in the rules() method of class YourRequest, 
+ ~~For correct working of plugin you have to dispose all the validation rules in the rules() method of class YourRequest, 
  which must be connected to the controller via DependencyInjection. In annotation of custom request you can specify 
  summary and description of this request. Plugin will take validation rules from your request and use it as description 
- of input parameter. 
+ of input parameter. ~~
+ 
+ The plugin will automatically generate Swagger 2.0 documentation after you run phpunit.
+ 
+ Every phpunit execution rewrites the documentation file ***fully***. That means, if you want to maintain documentation full, you need to run phpunit on **every** test you have.
   
 ### Example
 
