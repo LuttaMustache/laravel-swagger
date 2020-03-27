@@ -13,6 +13,8 @@ to display the generated documentation for a config.
  1. `composer require ronasit/laravel-swagger`
 
 ### Laravel
+ 1. Add **LuttaMustache\Support\AutoDoc\AutoDocServiceProvider::class** to providers in config/app.php
+ 1. Add **\RonasIT\Support\DataCollectors\LocalDataCollectorServiceProvider::class** to providers in config/app.php
  1. `php artisan vendor:publish`
  
 ### Plugin
