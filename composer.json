@@ -17,7 +17,7 @@
   ],
   "require": {
     "php": ">=7.1.0",
-    "laravel/framework": ">=5.3.0",
+    "laravel/framework": "8.*",
     "minime/annotations": "dev-master",
     "nikic/php-parser": "4.10.4"
   },

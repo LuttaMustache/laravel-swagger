@@ -315,6 +315,9 @@ class SwaggerService
 
     protected function saveGetRequestParameters($rules, AnnotationsBagInterface $annotations)
     {
+        if (sizeof($rules) == 0) {
+            $rules = array_fill_keys($this->request->keys(), 'auto generated');
+        }
         foreach ($rules as $parameter => $rule) {
             $validation = is_array($rule) ? $rule : explode('|', $rule);
 

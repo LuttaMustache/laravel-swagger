@@ -3,6 +3,7 @@
 namespace LuttaMustache\Support\AutoDoc\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Response;
 use LuttaMustache\Support\AutoDoc\Services\SwaggerService;
 
 /**
@@ -20,9 +21,10 @@ class AutoDocMiddleware
 
     public function handle($request, Closure $next)
     {
+        /** @var Response $response */
         $response = $next($request);
 
-        if ((config('app.env') == 'testing') && !self::$skipped) {
+        if ((config('app.env') == 'testing') && !self::$skipped && $response->isOk()) {
             $this->service->addData($request, $response);
         }
 
