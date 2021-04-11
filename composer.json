@@ -1,5 +1,5 @@
 {
-  "name": "ronasit/laravel-swagger",
+  "name": "luttamustache/op-laravel-swagger",
   "description": "Provided middleware for generating of swagger-documentation file by run testing of RESTful API.",
   "keywords": [
     "laravel",
@@ -18,11 +18,12 @@
   "require": {
     "php": ">=7.1.0",
     "laravel/framework": ">=5.3.0",
-    "minime/annotations": "~3.0"
+    "minime/annotations": "dev-master",
+    "nikic/php-parser": "4.10.4"
   },
   "autoload": {
     "psr-4": {
-      "RonasIT\\Support\\AutoDoc\\": "src/"
+      "LuttaMustache\\Support\\AutoDoc\\": "src/"
     },
     "exclude-from-classmap": [
       "src/Tests/"

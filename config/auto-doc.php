@@ -91,7 +91,7 @@ return [
     |
     | Class of data collector, which will collect and save documentation
     | It can be your own data collector class which should be inherited from
-    | RonasIT\Support\AutoDoc\Interfaces\DataCollectorInterface interface,
+    | LuttaMustache\Support\AutoDoc\Interfaces\DataCollectorInterface interface,
     | or our data collectors from next packages:
     |
     | ronasit/local-data-collector
@@ -100,5 +100,5 @@ return [
     | If config not set, will be using ronasit/local-data-collector
     */
 
-    'data_collector' => \RonasIT\Support\AutoDoc\DataCollectors\LocalDataCollector::class
+    'data_collector' => \LuttaMustache\Support\AutoDoc\DataCollectors\LocalDataCollector::class
 ];

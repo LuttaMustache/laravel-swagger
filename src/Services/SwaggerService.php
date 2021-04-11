@@ -1,6 +1,6 @@
 <?php
 
-namespace RonasIT\Support\AutoDoc\Services;
+namespace LuttaMustache\Support\AutoDoc\Services;
 
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
@@ -10,11 +10,11 @@ use Minime\Annotations\Interfaces\AnnotationsBagInterface;
 use Minime\Annotations\Reader as AnnotationReader;
 use Minime\Annotations\Parser;
 use Minime\Annotations\Cache\ArrayCache;
-use RonasIT\Support\AutoDoc\Interfaces\DataCollectorInterface;
-use RonasIT\Support\AutoDoc\Traits\GetDependenciesTrait;
-use RonasIT\Support\AutoDoc\Exceptions\WrongSecurityConfigException;
-use RonasIT\Support\AutoDoc\Exceptions\DataCollectorClassNotFoundException;
-use RonasIT\Support\AutoDoc\DataCollectors\LocalDataCollector;
+use LuttaMustache\Support\AutoDoc\Interfaces\DataCollectorInterface;
+use LuttaMustache\Support\AutoDoc\Traits\GetDependenciesTrait;
+use LuttaMustache\Support\AutoDoc\Exceptions\WrongSecurityConfigException;
+use LuttaMustache\Support\AutoDoc\Exceptions\DataCollectorClassNotFoundException;
+use LuttaMustache\Support\AutoDoc\DataCollectors\LocalDataCollector;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Testing\File;
 
@@ -226,7 +226,17 @@ class SwaggerService
         $annotations = $this->annotationReader->getClassAnnotations($concreteRequest);
 
         $this->saveParameters($concreteRequest, $annotations);
+        $this->saveParameterExamples($request);
         $this->saveDescription($concreteRequest, $annotations);
+    }
+
+    protected function saveParameterExamples(Request $request): void
+    {
+        foreach ($this->item['parameters'] as &$parameter) {
+            if (!in_array($parameter['type'] ?? '', ['object']) && $request->has($parameter['name'])) {
+                $parameter['example'] = $request->get($parameter['name']);
+            }
+        }
     }
 
     protected function parseResponse($response)
@@ -306,7 +316,7 @@ class SwaggerService
     protected function saveGetRequestParameters($rules, AnnotationsBagInterface $annotations)
     {
         foreach ($rules as $parameter => $rule) {
-            $validation = explode('|', $rule);
+            $validation = is_array($rule) ? $rule : explode('|', $rule);
 
             $description = $annotations->get($parameter, implode(', ', $validation));
 
@@ -315,12 +325,16 @@ class SwaggerService
             });
 
             if (empty($existedParameter)) {
+                $type = $this->getParameterType($validation);
                 $parameterDefinition = [
                     'in' => 'query',
                     'name' => $parameter,
                     'description' => $description,
-                    'type' => $this->getParameterType($validation)
+                    'type' => $type
                 ];
+                if ($type == 'array') {
+                    $parameterDefinition['items'] = [ 'type' => 'string' ];
+                }
                 if (in_array('required', $validation)) {
                     $parameterDefinition['required'] = true;
                 }
@@ -356,7 +370,7 @@ class SwaggerService
             'properties' => []
         ];
         foreach ($rules as $parameter => $rule) {
-            $rulesArray = explode('|', $rule);
+            $rulesArray = is_array($rule) ? $rule : explode('|', $rule);
             $parameterType = $this->getParameterType($rulesArray);
             $this->saveParameterType($data, $parameter, $parameterType);
             $this->saveParameterDescription($data, $parameter, $rulesArray, $annotations);
@@ -373,7 +387,7 @@ class SwaggerService
     protected function getParameterType(array $validation)
     {
         $validationRules = [
-            'array' => 'object',
+            'array' => 'array',
             'boolean' => 'boolean',
             'date' => 'date',
             'digits' => 'integer',
@@ -547,7 +561,7 @@ class SwaggerService
     {
         $request = $this->getConcreteRequest();
 
-        return elseChain(
+        return $this->elseChain(
             function () use ($request, $code) {
                 return empty($request) ? Response::$statusTexts[$code] : null;
             },
@@ -561,6 +575,21 @@ class SwaggerService
                 return Response::$statusTexts[$code];
             }
         );
+    }
+
+    protected function elseChain(...$callbacks)
+    {
+        $value = null;
+
+        foreach ($callbacks as $callback) {
+            $value = $callback();
+
+            if (!empty($value)) {
+                return $value;
+            }
+        }
+
+        return $value;
     }
 
     protected function getActionName($uri)

@@ -1,10 +1,10 @@
 <?php
 
-namespace RonasIT\Support\AutoDoc\DataCollectors;
+namespace LuttaMustache\Support\AutoDoc\DataCollectors;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use RonasIT\Support\AutoDoc\Interfaces\DataCollectorInterface;
-use RonasIT\Support\AutoDoc\Exceptions\MissedProductionFilePathException;
+use LuttaMustache\Support\AutoDoc\Interfaces\DataCollectorInterface;
+use LuttaMustache\Support\AutoDoc\Exceptions\MissedProductionFilePathException;
 
 class LocalDataCollector implements DataCollectorInterface
 {
@@ -38,7 +38,7 @@ class LocalDataCollector implements DataCollectorInterface
 
         file_put_contents($this->prodFilePath, $content);
 
-        self::$data = [];
+//        self::$data = [];
     }
 
     public function getDocumentation()

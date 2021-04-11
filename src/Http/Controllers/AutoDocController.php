@@ -1,10 +1,10 @@
 <?php
 
-namespace RonasIT\Support\AutoDoc\Http\Controllers;
+namespace LuttaMustache\Support\AutoDoc\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
-use RonasIT\Support\AutoDoc\Services\SwaggerService;
+use LuttaMustache\Support\AutoDoc\Services\SwaggerService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AutoDocController extends BaseController
@@ -30,8 +30,9 @@ class AutoDocController extends BaseController
 
     public function getFile(Request $request, $file)
     {
-        $filePath = base_path("vendor/ronasit/laravel-swagger/src/Views/swagger/{$file}");
+        $filePath = base_path("vendor/luttamustache/op-laravel-swagger/src/Views/swagger/{$file}");
 
+//        dd($filePath);
         if (!file_exists($filePath)) {
             throw new NotFoundHttpException();
         }
