@@ -24,7 +24,10 @@ class AutoDocMiddleware
         /** @var Response $response */
         $response = $next($request);
 
-        if ((config('app.env') == 'testing') && !self::$skipped && $response->isOk()) {
+        if ((config('app.env') == 'testing')
+            && !self::$skipped
+            && in_array($response->status(), [ 200, 201 ]))
+        {
             $this->service->addData($request, $response);
         }
 
